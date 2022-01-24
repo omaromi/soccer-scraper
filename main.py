@@ -14,6 +14,7 @@ firsturl = 'https://understat.com/match/16376'
 r1 = requests.get(firsturl)
 soup1 = bs(r1.content, 'html.parser')
 scripts1 = soup1.find_all('script')
+print(scripts1)
 
 rosters_json_string1 = ''
 
@@ -38,10 +39,17 @@ for url in urls:
     soup = bs(r.content, 'html.parser')
     scripts = soup.find_all('script')
     rosters_json_string = ''
+    shots_json_string = ''
+    matchinfo_json_string = ''
+
 
     for each in scripts:
         if 'rostersData' in each.text:
             rosters_json_string = each.text.strip()
+        elif 'shotsData' in each.text:
+            shots_json_string = each.text.strip()
+        elif 'match_info' in each.text:
+            matchinfo_json_string = each.text.strip()
 
     json_dict = jsonreader(rosters_json_string)
 
